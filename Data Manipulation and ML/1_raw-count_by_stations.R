@@ -136,7 +136,7 @@ for( i in sub_paths) {
   
 #### Start Station Work --Produces: start_station_count  ####
   
-  print("LINE 131")
+
   start_station_data <- data.frame(year = lubridate::year(data_being_read$started_at))
   start_station_data$month <- lubridate::month(data_being_read$started_at)
   start_station_data$day <- lubridate::day(data_being_read$started_at)
@@ -149,16 +149,16 @@ for( i in sub_paths) {
   }
   
   ## Creates the count table of every transaction, outputs in the data format "tibble"
-  print("LINE 139")
+
   start_station_data_tibble <- start_station_data %>%
     count(year, month, day, hour_interval, start_station_name) %>%
     pivot_wider(names_from = start_station_name, values_from = n, values_fill = 0)
   
-  print("LINE 144")
+
   start_station_count<- data.frame(start_station_data_tibble)
   colnames(start_station_count) <- colnames(start_station_data_tibble) 
   
-  print("LINE 148")
+
   
   ## Binds rows respect to column, if one column does not exist, fills in with zeros 
   start_station_count_all <- dplyr::bind_rows(previous_start,start_station_count)
@@ -170,7 +170,7 @@ for( i in sub_paths) {
   
 #### End Station Work --Produces: end_station_count  ####
   
-  print("LINE 157")
+
   end_station_data <- data.frame(year = lubridate::year(data_being_read$ended_at))
   end_station_data$month <- lubridate::month(data_being_read$ended_at)
   end_station_data$day <- lubridate::day(data_being_read$ended_at)
@@ -184,16 +184,16 @@ for( i in sub_paths) {
   
   
   ## Creates the count table of every transaction, outputs in the data format "tibble"
-  print("LINE 165")
+
   end_station_data_tibble <- end_station_data %>%
     count(year, month, day, hour_interval, end_station_name) %>%
     pivot_wider(names_from = end_station_name, values_from = n, values_fill = 0)
   
-  print("LINE 170")
+
   end_station_count<- data.frame(end_station_data_tibble)
   colnames(end_station_count) <- colnames(end_station_data_tibble)
   
-  print("LINE 174")
+
   
   end_station_count_all <- dplyr::bind_rows(previous_end,end_station_count)
   end_station_count_all <- replace(end_station_count_all, is.na(end_station_count_all), 0)
